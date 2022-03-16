@@ -5,13 +5,17 @@ inputs:
   run:
     description: 'Commands to run in container'
     required: true
+  container:
+    default: ghcr.io/cepawiel/dc-kos-base
+  tag:
+    default: gcc9-latest
 
 runs:
   using: "composite"
   steps:
     - uses: addnab/docker-run-action@v3
       with:
-        image: ghcr.io/cepawiel/dc-kos-base:gcc9-latest
+        image: ${{ inputs.container }}:${{ inputs.tag }}
         options: -v ${{ github.workspace }}:/src
         run: |
           source /opt/toolchains/dc/kos/environ.sh
