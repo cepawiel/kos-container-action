@@ -7,8 +7,13 @@ ARG BASE_PATH=/opt/toolchains/dc
 ARG KOS_PATH=${BASE_PATH}/kos
 ARG DCCHAIN_PATH=${KOS_PATH}/utils/dc-chain
 
-FROM alpine:latest as build-deps
-# FROM ghcr.io/jitesoft/alpine as build-deps
+# ARG BASE_CONTAINER=ghcr.io/jitesoft/alpine
+ARG BASE_CONTAINER=alpine:latest
+ARG SH4_CONTAINER=sh4-toolchain:latest
+ARG ARM_CONTAINER=arm-toolchain:latest
+ARG GDB_CONTAINER=gdb-build:latest
+
+FROM ${BASE_CONTAINER} as build-deps
 
 # Installing prerequisites
 RUN apk add --no-cache \
@@ -91,3 +96,18 @@ RUN cd ${DCCHAIN_PATH} \
 	&& make gdb -j2 ${CONFIG_ARGS}
 	
 
+FROM ${ARM_CONTAINER} as build-arm
+FROM ${SH4_CONTAINER} as build-sh4
+FROM ${GDB_CONTAINER} as build-gdb
+
+# Copy Toolchain out of build container into toolchain container.
+# This allows the removal of all the remaints of the toolchain build in
+# the previous container only keeping the compiled toolchains.
+FROM build-deps as toolchain
+ARG SH4_CONTAINER
+ARG ARM_CONTAINER
+ARG GDB_CONTAINER
+
+COPY --from=build-arm /opt/toolchains/dc/arm-eabi /opt/toolchains/dc/arm-eabi
+COPY --from=build-sh4 /opt/toolchains/dc/sh-elf /opt/toolchains/dc/sh-elf
+COPY --from=build-gdb /opt/toolchains/dc/sh-elf /opt/toolchains/dc/sh-elf
