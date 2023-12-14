@@ -51,6 +51,6 @@ jobs:
                 context: "container"
                 push: true
                 tags: ghcr.io/${{ github.repository_owner }}/${{ inputs.image }}
-                build-args: ${{ inputs.dcchain_args }}
+                build-args: CONFIG_ARGS="${{ inputs.dcchain_args }}"
 
 
