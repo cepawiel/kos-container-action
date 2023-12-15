@@ -2,7 +2,7 @@
 [
     {
         "target" : "sh4-toolchain",
-        "tag" : "temp-sh4-toolchain",
+        "tag" : "temp-sh4-toolchain"
     },
     {
         "target" : "arm-toolchain",
