@@ -9,9 +9,10 @@ ARG DCCHAIN_PATH=${KOS_PATH}/utils/dc-chain
 
 # ARG BASE_CONTAINER=ghcr.io/jitesoft/alpine
 ARG BASE_CONTAINER=alpine:latest
-ARG SH4_CONTAINER=sh4-toolchain:latest
-ARG ARM_CONTAINER=arm-toolchain:latest
-ARG GDB_CONTAINER=gdb-build:latest
+ARG SH4_CONTAINER=sh4-toolchain
+ARG ARM_CONTAINER=arm-toolchain
+ARG GDB_CONTAINER=gdb-build
+ARG BUILD_CONTAINER=build-deps
 
 FROM ${BASE_CONTAINER} as build-deps
 
@@ -34,7 +35,7 @@ RUN apk add --no-cache \
 	elfutils-dev \
 	coreutils
 
-FROM build-deps as toolchain-setup
+FROM ${BUILD_CONTAINER} as toolchain-setup
 
 ARG KOS_PATH
 ARG DCCHAIN_PATH
@@ -103,7 +104,7 @@ FROM ${GDB_CONTAINER} as build-gdb
 # Copy Toolchain out of build container into toolchain container.
 # This allows the removal of all the remaints of the toolchain build in
 # the previous container only keeping the compiled toolchains.
-FROM build-deps as toolchain
+FROM ${BUILD_CONTAINER} as toolchain
 ARG SH4_CONTAINER
 ARG ARM_CONTAINER
 ARG GDB_CONTAINER

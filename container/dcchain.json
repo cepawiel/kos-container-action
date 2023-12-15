@@ -1,0 +1,15 @@
+
+[
+    {
+        "target" : "sh4-toolchain",
+        "tag" : "temp-sh4-toolchain",
+    },
+    {
+        "target" : "arm-toolchain",
+        "tag" : "temp-arm-toolchain"
+    },
+    {
+        "target" : "gdb-build",
+        "tag" : "temp-gdb-build"
+    }
+]
