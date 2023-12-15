@@ -5,6 +5,7 @@
 name: Toolchain Build
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   matrix-prep:
