@@ -18,10 +18,8 @@ jobs:
   
       - id: set-matrix
         run: |
-          pwd
-          ls -la
-          cat container/dcchain.json
-          echo "dcchain_cfg=$(cat container/dcchain.json)" >> $GITHUB_OUTPUT
+          dcchain_cfg=$(jq -c . container/dcchain.json)  
+          echo "dcchain_cfg={\"include\":$(echo $dcchain_cfg)}" >> $GITHUB_OUTPUT
 
   dcchain:
     runs-on: ubuntu-latest
