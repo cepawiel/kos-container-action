@@ -74,7 +74,7 @@ ARG CONFIG_ARGS
 
 RUN cd ${DCCHAIN_PATH} \
 	&& echo "Building SH4 Toolchain" \
-	&& make build-sh4 ${SHARED_CFG} $(echo ${CONFIG_ARGS} | sed -e 's/^"//' -e 's/"$//')`
+	&& make build-sh4 ${SHARED_CFG} ${CONFIG_ARGS}
 
 # Build ARM Toolchain
 FROM toolchain-setup as arm-toolchain
