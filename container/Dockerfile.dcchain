@@ -9,10 +9,10 @@ ARG DCCHAIN_PATH=${KOS_PATH}/utils/dc-chain
 
 # ARG BASE_CONTAINER=ghcr.io/jitesoft/alpine
 ARG BASE_CONTAINER=alpine:latest
+ARG BUILD_CONTAINER=build-deps
 ARG SH4_CONTAINER=sh4-toolchain
 ARG ARM_CONTAINER=arm-toolchain
 ARG GDB_CONTAINER=gdb-build
-ARG BUILD_CONTAINER=build-deps
 
 FROM ${BASE_CONTAINER} as build-deps
 
