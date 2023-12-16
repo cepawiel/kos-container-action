@@ -36,6 +36,7 @@
             "target" : "kos-ports",
             "image" : "temp-kos",
             "kos_repo" : "https://github.com/KallistiOS/KallistiOS",
+            "ports_repo" : "https://github.com/KallistiOS/kos-ports",
             "toolchain_container" : "temp-toolchain"
         }
     ]

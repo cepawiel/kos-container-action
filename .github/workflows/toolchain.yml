@@ -144,6 +144,7 @@ jobs:
         run: |
           cd container
           git clone ${{ matrix.kos_repo }} KOS
+          git clone ${{ matrix.ports_repo }} PORTS
 
       - name: Generate Image Metadata
         id: meta
