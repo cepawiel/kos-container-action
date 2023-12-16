@@ -30,7 +30,7 @@ jobs:
       - matrix-prep
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.matrix-prep.outputs.dcchain_cfg) }}
+      matrix: ${{ fromJson(needs.matrix-prep.outputs.dcchain_partial_cfg) }}
     steps:
       - uses: actions/checkout@v4
 
