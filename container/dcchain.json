@@ -30,6 +30,14 @@
             "gdb_container" : "temp-gdb-build"
 
         }
+    ],
+    "kos" : [
+        {
+            "target" : "kos-ports",
+            "image" : "temp-kos",
+            "kos_repo" : "https://github.com/KallistiOS/KallistiOS",
+            "toolchain_container" : "temp-toolchain"
+        }
     ]
 }
 

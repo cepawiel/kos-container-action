@@ -1,0 +1,53 @@
+
+# build kos and related tools
+# TODO: Could probably use a slimmer base image
+#		but we need some host build tools for kos anyway
+ARG TOOLCHAIN_CONTAINER=toolchain
+FROM ${TOOLCHAIN_CONTAINER} as kos
+
+# copy entire KOS folder into container
+# TODO: copy only folders necessary for build. 
+#		Example: Changes to doc/ will trigger a rebuild which might be unwanted
+COPY KOS /opt/toolchains/dc/kos
+
+# setup environ.sh file using default
+RUN cd /opt/toolchains/dc/kos \
+	&& ls -la \
+	&& cp doc/environ.sh.sample environ.sh \
+	# create link so environ.sh is sourced for interactive shells
+	# example: docker run --rm -it $TAG /bin/bash
+	&& ln -s /opt/toolchains/dc/kos/environ.sh /etc/profile.d/kos.sh
+
+# pristine (default) is for dreamcast
+# naomi can be specified as a build_arg
+# overwriting this at runtime could cause issues
+# so avoid doing so
+# TODO: Give a warning if runtime arg != build arg
+ARG KOS_SUBARCH="pristine"
+ENV KOS_SUBARCH=${KOS_SUBARCH}
+
+# set BASH_ENV so it works for non interactive as well
+# example: docker run --rm $TAG "make"
+ENV BASH_ENV="/opt/toolchains/dc/kos/environ.sh"
+
+# Set Shell to Bash so environ.sh will be sourced in every
+# following run command
+SHELL ["/bin/bash", "-c"]
+
+# set entry point to bash so arg to docker run can be 
+# run as a command.
+ENTRYPOINT ["/bin/bash", "-c"]
+
+# if run with no parameters just start bash
+CMD ["/bin/bash"]
+
+# build KOS
+RUN cd /opt/toolchains/dc/kos && make
+
+# TODO: Build KOS Debug Lib
+
+FROM kos as kos-ports
+
+COPY PORTS /opt/toolchains/dc/kos-ports
+RUN cd /opt/toolchains/dc/kos-ports \
+	&& sh utils/build-all.sh
