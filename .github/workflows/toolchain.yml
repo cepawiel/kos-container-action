@@ -35,6 +35,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.matrix-prep.outputs.dcchain_partial_cfg) }}
+    name: "[${{ matrix.kos_sha}}] ${{ matrix.job_name }}"
     steps:
       - uses: actions/checkout@v4
 
@@ -87,6 +88,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.matrix-prep.outputs.dcchain_full_cfg) }}
+    name: "[${{ matrix.kos_sha}}] ${{ matrix.job_name }}"
     steps:
       - uses: actions/checkout@v4
 
@@ -138,6 +140,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.matrix-prep.outputs.kos_cfg) }}
+    name: "[${{ matrix.kos_sha}}] ${{ matrix.job_name }}"      
     steps:
       - uses: actions/checkout@v4
 
