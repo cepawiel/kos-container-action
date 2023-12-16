@@ -48,6 +48,8 @@ jobs:
         run: |
           cd container
           git clone ${{ matrix.kos_repo }} KOS
+          cd KOS
+          git checkout ${{ matrix.kos_sha }}
 
       - name: Generate Image Metadata
         id: meta
@@ -95,6 +97,8 @@ jobs:
         run: |
           cd container
           git clone ${{ matrix.kos_repo }} KOS
+          cd KOS
+          git checkout ${{ matrix.kos_sha }}
 
       - name: Generate Image Metadata
         id: meta
@@ -144,7 +148,12 @@ jobs:
         run: |
           cd container
           git clone ${{ matrix.kos_repo }} KOS
+          cd KOS
+          git checkout ${{ matrix.kos_sha }}
+          cd  ../
           git clone ${{ matrix.ports_repo }} PORTS
+          cd PORTS
+          git checkout ${{ matrix.ports_sha }}
 
       - name: Generate Image Metadata
         id: meta
