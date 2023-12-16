@@ -51,15 +51,6 @@ COPY KOS/kernel/arch/dreamcast/include/dc ${KOS_PATH}/kernel/arch/dreamcast/incl
 COPY KOS/kernel/arch/dreamcast/kernel ${KOS_PATH}/kernel/arch/dreamcast/kernel
 COPY KOS/utils/dc-chain ${DCCHAIN_PATH}
 
-# Build Arg to select either "kos" or "raw" toolchain build
-ARG BUILD_TYPE=kos
-
-# name of toolchain config file located in utils/dc-chain
-# passed as arg to docker build command
-ARG CONFIG_ARGS
-
-# COPY config_toolchain.sh ${DCCHAIN_PATH}/config_toolchain.sh
-
 ARG BUILDPLATFORM 
 ARG TARGETPLATFORM
 RUN echo "Build: $BUILDPLATFORM" && echo "Target: $TARGETPLATFORM"
@@ -72,13 +63,16 @@ RUN cd ${DCCHAIN_PATH} \
     && touch config.mk
 # 	&& make fetch -j4 ${CONFIG_ARGS}
 
+ARG SHARED_CFG=macos_gcc_configure_args= makejobs=-j verbose=0 erase=0 toolchains_base=/opt/toolchains/dc download_protocol=https install_mode=install-strip
+ARG CONFIG_ARGS
+
 # Build SH4 Toolchain
 FROM toolchain-setup as sh4-toolchain
 ARG DCCHAIN_PATH
 
 RUN cd ${DCCHAIN_PATH} \
 	&& echo "Building SH4 Toolchain" \
-	&& make build-sh4 -j2 ${CONFIG_ARGS}
+	&& make build-sh4 ${SHARED_CFG} ${CONFIG_ARGS}
 
 # Build ARM Toolchain
 FROM toolchain-setup as arm-toolchain
@@ -86,7 +80,7 @@ ARG DCCHAIN_PATH
 
 RUN cd ${DCCHAIN_PATH} \
 	&& echo "Building ARM Toolchain" \
-	&& make build-arm -j2 ${CONFIG_ARGS}
+	&& make build-arm ${SHARED_CFG} ${CONFIG_ARGS}
 
 # Build GDB
 FROM toolchain-setup as gdb-build
@@ -94,7 +88,7 @@ ARG DCCHAIN_PATH
 
 RUN cd ${DCCHAIN_PATH} \
 	&& echo "Building GDB" \
-	&& make gdb -j2 ${CONFIG_ARGS}
+	&& make gdb ${SHARED_CFG} ${CONFIG_ARGS}
 	
 
 FROM ${ARM_CONTAINER} as build-arm
