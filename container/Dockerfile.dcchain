@@ -69,6 +69,8 @@ ARG CONFIG_ARGS
 # Build SH4 Toolchain
 FROM toolchain-setup as sh4-toolchain
 ARG DCCHAIN_PATH
+ARG SHARED_CFG
+ARG CONFIG_ARGS
 
 RUN cd ${DCCHAIN_PATH} \
 	&& echo "Building SH4 Toolchain" \
@@ -77,18 +79,22 @@ RUN cd ${DCCHAIN_PATH} \
 # Build ARM Toolchain
 FROM toolchain-setup as arm-toolchain
 ARG DCCHAIN_PATH
+ARG SHARED_CFG
+ARG CONFIG_ARGS
 
 RUN cd ${DCCHAIN_PATH} \
 	&& echo "Building ARM Toolchain" \
-	&& make build-arm ${SHARED_CFG} $(echo ${CONFIG_ARGS} | sed -e 's/^"//' -e 's/"$//')`
+	&& make build-arm ${SHARED_CFG} ${CONFIG_ARGS}
 
 # Build GDB
 FROM toolchain-setup as gdb-build
 ARG DCCHAIN_PATH
+ARG SHARED_CFG
+ARG CONFIG_ARGS
 
 RUN cd ${DCCHAIN_PATH} \
 	&& echo "Building GDB" \
-	&& make gdb ${SHARED_CFG} $(echo ${CONFIG_ARGS} | sed -e 's/^"//' -e 's/"$//')`
+	&& make gdb ${SHARED_CFG} ${CONFIG_ARGS}
 	
 
 FROM ${ARM_CONTAINER} as build-arm
