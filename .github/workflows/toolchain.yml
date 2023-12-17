@@ -2,15 +2,27 @@
 # setup
 #
 
-name: Toolchain Build
+name: "KOS"
+run-name: "[KOS][KallistiOS/master][42e3604] Push"
 on:
   workflow_dispatch:
+    # inputs:
+    #   kos_repo:
+    #     description: "KallistiOS Repository URL"
+    #     required: true
+    #     default: "https://github.com/KallistiOS/KallistiOS"
+    #   kos_sha:
+    #     description: "KallistiOS Commit SHA"
+    #     required: true
+    #     default: "42e3604"
   push:
 
 jobs:
   matrix-prep:
     runs-on: ubuntu-latest
     outputs:
+      kos_repo: ${{ steps.set-matrix.outputs.kos_repo }}
+      kos_sha: ${{ steps.set-matrix.outputs.kos_sha }}
       dcchain_partial_cfg: ${{ steps.set-matrix.outputs.dcchain_partial_cfg }}
       dcchain_full_cfg: ${{ steps.set-matrix.outputs.dcchain_full_cfg }}
       kos_cfg: ${{ steps.set-matrix.outputs.kos_cfg }}
@@ -21,10 +33,15 @@ jobs:
   
       - id: set-matrix
         run: |
+          kos_repo=$(jq -r ".kos_repo" container/dcchain.json)
+          kos_sha=$(jq -r ".kos_sha" container/dcchain.json)
           dcchain_partial_cfg=$(jq ".dcchain_partial" container/dcchain.json | jq -c)
           dcchain_full_cfg=$(jq ".dcchain_full" container/dcchain.json | jq -c)
           kos_cfg=$(jq ".kos" container/dcchain.json | jq -c)
           ports_cfg=$(jq ".ports" container/dcchain.json | jq -c)
+
+          echo "kos_repo=$kos_repo" >> $GITHUB_OUTPUT
+          echo "kos_sha=$kos_sha" >> $GITHUB_OUTPUT
           echo "dcchain_partial_cfg={\"include\":$(echo $dcchain_partial_cfg)}" >> $GITHUB_OUTPUT
           echo "dcchain_full_cfg={\"include\":$(echo $dcchain_full_cfg)}" >> $GITHUB_OUTPUT
           echo "kos_cfg={\"include\":$(echo $kos_cfg)}" >> $GITHUB_OUTPUT
@@ -50,9 +67,9 @@ jobs:
       - name: Clone KOS
         run: |
           cd container
-          git clone ${{ matrix.kos_repo }} KOS
+          git clone ${{ fromJson(needs.matrix-prep.outputs.kos_repo) }} KOS
           cd KOS
-          git checkout ${{ matrix.kos_sha }}
+          git checkout ${{ fromJson(needs.matrix-prep.outputs.kos_sha) }}
 
       - name: Generate Image Metadata
         id: meta
@@ -100,9 +117,9 @@ jobs:
       - name: Clone KOS
         run: |
           cd container
-          git clone ${{ matrix.kos_repo }} KOS
+          git clone ${{ fromJson(needs.matrix-prep.outputs.kos_repo) }} KOS
           cd KOS
-          git checkout ${{ matrix.kos_sha }}
+          git checkout ${{ fromJson(needs.matrix-prep.outputs.kos_sha) }}
 
       - name: Generate Image Metadata
         id: meta
@@ -152,9 +169,9 @@ jobs:
       - name: Clone KOS
         run: |
           cd container
-          git clone ${{ matrix.kos_repo }} KOS
+          git clone ${{ fromJson(needs.matrix-prep.outputs.kos_repo) }} KOS
           cd KOS
-          git checkout ${{ matrix.kos_sha }}
+          git checkout ${{ fromJson(needs.matrix-prep.outputs.kos_sha) }}
 
       - name: Generate Image Metadata
         id: meta
@@ -201,9 +218,9 @@ jobs:
       - name: Clone KOS
         run: |
           cd container
-          git clone ${{ matrix.kos_repo }} KOS
+          git clone ${{ fromJson(needs.matrix-prep.outputs.kos_repo) }} KOS
           cd KOS
-          git checkout ${{ matrix.kos_sha }}
+          git checkout ${{ fromJson(needs.matrix-prep.outputs.kos_sha) }}
           cd  ../
           git clone ${{ matrix.ports_repo }} PORTS
           cd PORTS

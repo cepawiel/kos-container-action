@@ -1,28 +1,24 @@
 
 {
+    "kos_repo" : "https://github.com/KallistiOS/KallistiOS",
+    "kos_sha" : "42e3604",
     "dcchain_partial" :[
         {
             "job_name": "SH4 Toolchain 'stable'",
             "target" : "sh4-toolchain",
             "image" : "temp-sh4-toolchain",
-            "kos_repo" : "https://github.com/KallistiOS/KallistiOS",
-            "kos_sha" : "42e3604",
             "cfg_args" : "gnu_mirror=mirrors.kernel.org pass2_languages=c,c++,objc,obj-c++ sh_gmp_ver=6.2.1 sh_mpfr_ver=4.1.0 sh_mpc_ver=1.2.1 sh_isl_ver=0.24 sh_gmp_download_type=bz2 sh_mpfr_download_type=bz2 sh_mpc_download_type=gz sh_isl_download_type=bz2 sh_binutils_ver=2.41 sh_gcc_ver=13.2.0 newlib_ver=4.3.0.20230120 sh_binutils_download_type=xz sh_gcc_download_type=xz newlib_download_type=gz thread_model=kos gdb_download_type=xz gdb_ver=14.1"
         },
         {
             "job_name": "ARM Toolchain 'stable'",
             "target" : "arm-toolchain",
             "image" : "temp-arm-toolchain",
-            "kos_repo" : "https://github.com/KallistiOS/KallistiOS",
-            "kos_sha" : "42e3604",
             "cfg_args" : "gnu_mirror=mirrors.kernel.org arm_gmp_ver=6.1.0 arm_mpfr_ver=3.1.4 arm_mpc_ver=1.0.3 arm_isl_ver=0.18 arm_gmp_download_type=bz2 arm_mpfr_download_type=bz2 arm_mpc_download_type=gz arm_isl_download_type=bz2 arm_binutils_ver=2.41 arm_gcc_ver=8.5.0 arm_binutils_download_type=xz arm_gcc_download_type=xz thread_model=kos gdb_download_type=xz gdb_ver=14.1"
         },
         {
             "job_name": "GDB 'stable'",
             "target" : "gdb-build",
             "image" : "temp-gdb-build",
-            "kos_repo" : "https://github.com/KallistiOS/KallistiOS",
-            "kos_sha" :"42e3604",
             "cfg_args" : "gnu_mirror=mirrors.kernel.org thread_model=kos gdb_download_type=xz gdb_ver=14.1"
         }
     ],
@@ -31,12 +27,9 @@
             "job_name": "KOS Toolchain 'stable'",
             "target": "toolchain",
             "image" : "temp-toolchain",
-            "kos_repo" : "https://github.com/KallistiOS/KallistiOS",
-            "kos_sha" :"42e3604",
             "sh4_container" : "temp-sh4-toolchain",
             "arm_container" : "temp-arm-toolchain",
             "gdb_container" : "temp-gdb-build"
-
         }
     ],
     "kos" : [
@@ -44,8 +37,6 @@
             "job_name": "KOS with 'stable' Toolchain",
             "target" : "kos",
             "image" : "temp-kos",
-            "kos_repo" : "https://github.com/KallistiOS/KallistiOS",
-            "kos_sha" :"42e3604",
             "toolchain_container" : "temp-toolchain"
         }
     ],
@@ -54,8 +45,6 @@
             "job_name": "KOS+Ports with 'stable' Toolchain",
             "target" : "kos-ports",
             "image" : "temp-kos-ports",
-            "kos_repo" : "https://github.com/KallistiOS/KallistiOS",
-            "kos_sha" :"42e3604",
             "ports_repo" : "https://github.com/KallistiOS/kos-ports",
             "ports_sha" : "31b4266",
             "toolchain_container" : "temp-toolchain"
