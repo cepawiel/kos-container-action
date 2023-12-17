@@ -67,9 +67,9 @@ jobs:
       - name: Clone KOS
         run: |
           cd container
-          git clone ${{ fromJson(needs.matrix-prep.outputs.kos_repo) }} KOS
+          git clone ${{ needs.matrix-prep.outputs.kos_repo }} KOS
           cd KOS
-          git checkout ${{ fromJson(needs.matrix-prep.outputs.kos_sha) }}
+          git checkout ${{ needs.matrix-prep.outputs.kos_sha }}
 
       - name: Generate Image Metadata
         id: meta
@@ -117,9 +117,9 @@ jobs:
       - name: Clone KOS
         run: |
           cd container
-          git clone ${{ fromJson(needs.matrix-prep.outputs.kos_repo) }} KOS
+          git clone ${{ needs.matrix-prep.outputs.kos_repo }} KOS
           cd KOS
-          git checkout ${{ fromJson(needs.matrix-prep.outputs.kos_sha) }}
+          git checkout ${{ needs.matrix-prep.outputs.kos_sha }}
 
       - name: Generate Image Metadata
         id: meta
@@ -169,9 +169,9 @@ jobs:
       - name: Clone KOS
         run: |
           cd container
-          git clone ${{ fromJson(needs.matrix-prep.outputs.kos_repo) }} KOS
+          git clone ${{ needs.matrix-prep.outputs.kos_repo }} KOS
           cd KOS
-          git checkout ${{ fromJson(needs.matrix-prep.outputs.kos_sha) }}
+          git checkout ${{ needs.matrix-prep.outputs.kos_sha }}
 
       - name: Generate Image Metadata
         id: meta
@@ -218,9 +218,9 @@ jobs:
       - name: Clone KOS
         run: |
           cd container
-          git clone ${{ fromJson(needs.matrix-prep.outputs.kos_repo) }} KOS
+          git clone ${{ needs.matrix-prep.outputs.kos_repo }} KOS
           cd KOS
-          git checkout ${{ fromJson(needs.matrix-prep.outputs.kos_sha) }}
+          git checkout ${{ needs.matrix-prep.outputs.kos_sha }}
           cd  ../
           git clone ${{ matrix.ports_repo }} PORTS
           cd PORTS
