@@ -54,7 +54,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.matrix-prep.outputs.dcchain_partial_cfg) }}
-    name: "[${{ matrix.kos_sha}}] ${{ matrix.job_name }}"
+    name: "[${{ needs.matrix-prep.outputs.kos_sha}}] ${{ matrix.job_name }}"
     steps:
       - uses: actions/checkout@v4
 
@@ -107,7 +107,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.matrix-prep.outputs.dcchain_full_cfg) }}
-    name: "[${{ matrix.kos_sha}}] ${{ matrix.job_name }}"
+    name: "[${{ needs.matrix-prep.outputs }}] ${{ matrix.job_name }}"
     steps:
       - uses: actions/checkout@v4
 
@@ -159,7 +159,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.matrix-prep.outputs.kos_cfg) }}
-    name: "[${{ matrix.kos_sha}}] ${{ matrix.job_name }}"      
+    name: "[${{ needs.matrix-prep.outputs }}] ${{ matrix.job_name }}"      
     steps:
       - uses: actions/checkout@v4
 
@@ -208,7 +208,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.matrix-prep.outputs.ports_cfg) }}
-    name: "[${{ matrix.kos_sha}}] ${{ matrix.job_name }}"      
+    name: "[${{ needs.matrix-prep.outputs }}] ${{ matrix.job_name }}"      
     steps:
       - uses: actions/checkout@v4
 
